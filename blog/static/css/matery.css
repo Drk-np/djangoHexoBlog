@@ -35,7 +35,6 @@
 }
 
 
-
 body {
     background-color: #eaeaea;
     margin: 0;
@@ -251,30 +250,12 @@ mark {
 }
 
 .bg-color {
-    /*background-image: linear-gradient(to right, #ed4264 0%, #ffedbc 100%);*/
-    background-image: linear-gradient(to right, #79CBCA 0%, #e684ae 100%);
-    /*opacity: 0.9;*/
+    background: #56CCF2; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /*filter: blur(1px);*/
 }
 
-.tag-color {
-   background-image: linear-gradient(to right, #ed4264 0%, #ffedbc 100%);
-   /*background-image: linear-gradient(to right, #7693ee 0%, #9baeeb 100%);*/
-}
-
-.left-color {
-   background-image: linear-gradient(to right, #ed4264 0%, #ffedbc 100%);
-   /*background-image: linear-gradient(to right, #de5347 0%, #de776e 100%);*/
-}
-
-.right-color {
-   background-image: linear-gradient(to right, #ed4264 0%, #ffedbc 100%);
-   /*background-image: linear-gradient(to right, #de5347 0%, #7693ee 100%);*/
-}
-
-.text-color {
-   color: #ed4264 !important;
-   /*color: #0f9d58 !important;*/
-}
 
 .white-color {
     color: #fff;
@@ -508,6 +489,7 @@ header .go-back i {
 .bg-cover .post-title {
     font-size: 3rem;
 }
+
 /*
 @-webkit-keyframes rainbow {
     0%,
@@ -1739,7 +1721,7 @@ footer .social-statis {
 
 footer a {
     /*color: #fff;*/
-	color: #dbdbdb;
+    color: #dbdbdb;
 }
 
 footer .copy-right {
