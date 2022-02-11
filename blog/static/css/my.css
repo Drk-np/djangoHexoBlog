@@ -72,6 +72,6 @@
     line-height: 50px;
 }
 .title-name-with{
-    min-width: 220px;
+    white-space: nowrap;
 }
 

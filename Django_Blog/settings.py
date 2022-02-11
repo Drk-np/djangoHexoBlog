@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',#博客应用
     'mdeditor',#Markdown编辑器
-    'import_export'#导入导出插件
+    'import_export',#导入导出插件
+    'pure_pagination',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +136,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
 
 #SimpleUi后台设置
-SIMPLEUI_LOGO = 'https://i.loli.net/2020/04/23/jGP8gQOYW75TSJp.png' #登录页和后台logo
+SIMPLEUI_LOGO = 'https://i.loli.net/2021/07/18/tVSUv6DfFiaPMqH.gif' #登录页和后台logo
 SIMPLEUI_ANALYSIS = False #是否向SimpleUi收集分析信息
 SIMPLEUI_LOADING = False #是否打开Loading遮罩层
 SIMPLEUI_LOGIN_PARTICLES = True #登录页粒子动画

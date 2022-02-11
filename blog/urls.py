@@ -2,7 +2,7 @@ from django.urls import path, re_path
 from blog import views
 from django.contrib.staticfiles.views import serve
 from django.views.generic.base import RedirectView
-
+from blog.views import Article_tag
 urlpatterns = [
     # 首页
     path('', views.index, name='index'),
@@ -15,7 +15,7 @@ urlpatterns = [
     # 文章分类详情页
     re_path('article_category/(?P<id>[0-9]+)$', views.article_category, name='article_category'),
     # 文章标签详情页
-    path('article_tag/<int:id>', views.article_tag, name='article_tag'),
+    path('article_tag/',Article_tag.as_view(), name='article_tag'),
     # 关于
     path('about/', views.about, name='about'),
     # path('favicon.ico', serve, {'path': 'static/img/favicon.ico'}),

@@ -264,14 +264,14 @@
 													<li class="tab col s6 wechat-tab waves-effect waves-light"><a
 															href="#wechat">微 信</a></li>
 												</ul>
-												<div id="alipay">
-													<img src="https://jwt1399.top/medias/reward/alipay.png"
-													     class="reward-img" alt="支付宝打赏二维码">
-												</div>
-												<div id="wechat">
-													<img src="https://jwt1399.top/medias/reward/wechat.png"
-													     class="reward-img" alt="微信打赏二维码">
-												</div>
+{#												<div id="alipay">#}
+{#													<img src="https://jwt1399.top/medias/reward/alipay.png"#}
+{#													     class="reward-img" alt="支付宝打赏二维码">#}
+{#												</div>#}
+{#												<div id="wechat">#}
+{#													<img src="https://jwt1399.top/medias/reward/wechat.png"#}
+{#													     class="reward-img" alt="微信打赏二维码">#}
+{#												</div>#}
 											</div>
 										</div>
 									</div>
@@ -342,6 +342,7 @@
                         }
 
                         var url = document.location.href;
+                        console.log("111111111",document.location,url);
                         newdiv.innerHTML += '<br />'
                             + '来源: {{ SITE_NAME }}<br />'
                             + '文章作者: {{article.author}}<br />'
