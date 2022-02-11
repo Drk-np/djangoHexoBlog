@@ -74,12 +74,15 @@ def article_category(request, id):
 def article_tag(request, id):
     '''文章标签详情页'''
     tags = Tag.objects.all()
+    print("tags",tags)
     articles = Tag.objects.get(id=id).article_set.all()
+    print("articles",articles)
     context = {
         'tags': tags,
         'id': id,
         'articles': articles
     }
+    print("context",context)
     return render(request, 'article_tag.html', context)
 
 
