@@ -257,6 +257,22 @@ mark {
 }
 
 
+.tag-color {
+    background-image: linear-gradient(to right, #E7E059 0%, #F8CE5E 100%);
+}
+
+.left-color {
+    background-image: linear-gradient(to right,  #D63B30 0%, #D63B30 100%);
+}
+
+.right-color {
+    background-image: linear-gradient(to right,  #398BCD 0%, #398BCD 100%);
+}
+
+.text-color {
+    color: #D63B30 !important;
+}
+
 .white-color {
     color: #fff;
 }

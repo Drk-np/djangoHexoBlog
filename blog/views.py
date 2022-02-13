@@ -9,16 +9,31 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 def index(request):
     """首页展示"""
     # 取出所有博客文章
-    all_articles = Article.objects.all()
+    all_articles = Article.objects.all().order_by('-add_time')
     # 取出要推荐的博客文章
     top_articles = Article.objects.filter(is_recommend=1)
     notices = Notice.objects.all()
+    # 首页分页功能
+    try:
+        page = request.GET.get('page', 1)
+    except PageNotAnInteger:
+        page = 1
+    except EmptyPage as e:
+        print("wps")
+        # 页码超出范围，返回最后一页
+        page = Paginator.num_pages
+
+    print("111111",page)
+    p = Paginator(all_articles, 9, request=request)
+    all_articles = p.page(page)
+
     # 需要传递给模板（templates）的对象
     context = {
         'all_articles': all_articles,
         'top_articles': top_articles,
         'notices': notices
     }
+    print("222222222")
     # render函数：载入模板，并返回context对象
     return render(request, 'index.html', context)
 
@@ -74,53 +89,71 @@ def article_category(request, id):
     return render(request, 'article_category.html', context)
 
 
-class Article_tag(View):
+def article_tag(request, id):
+    '''文章标签详情页'''
+    tags = Tag.objects.all()
+    print("tags", tags)
+    articles = Tag.objects.get(id=id).article_set.all()
+    print("articles", articles)
+    context = {
+        'tags': tags,
+        'id': id,
+        'articles': articles
+    }
+    print("context", context)
+    return render(request, 'article_tag.html', context)
+
+
+def archive(request):
     """
        文章归档
     """
-    def get(self, request):
-        all_articles = Article.objects.all().order_by('-add_time')
-        all_date = all_articles.values('add_time')
-        latest_date = all_date[0]['add_time']
-        all_date_list = []
-        for i in all_date:
-            all_date_list.append(i['add_time'].strftime("%Y-%m-%d"))
+    all_articles = Article.objects.all().order_by('-add_time')
 
-        # 遍历1年的日期
-        end = datetime.date(latest_date.year, latest_date.month, latest_date.day)
-        begin = datetime.date(latest_date.year - 1, latest_date.month, latest_date.day)
-        d = begin
-        date_list = []
+    all_date = all_articles.values('add_time')
+    latest_date = all_date[0]['add_time']
+    all_date_list = []
+    for i in all_date:
+        all_date_list.append(i['add_time'].strftime("%Y-%m-%d"))
+
+    # 遍历1年的日期
+    end = datetime.date(latest_date.year, latest_date.month, latest_date.day)
+    begin = datetime.date(latest_date.year - 1, latest_date.month, latest_date.day)
+    d = begin
+    date_list = []
+    temp_list = []
+
+    delta = datetime.timedelta(days=1)
+    while d <= end:
+        day = d.strftime("%Y-%m-%d")
+        if day in all_date_list:
+            temp_list.append(day)
+            temp_list.append(all_date_list.count(day))
+        else:
+            temp_list.append(day)
+            temp_list.append(0)
+        d += delta
+        date_list.append(temp_list)
         temp_list = []
 
-        delta = datetime.timedelta(days=1)
-        while d <= end:
-            day = d.strftime("%Y-%m-%d")
-            if day in all_date_list:
-                temp_list.append(day)
-                temp_list.append(all_date_list.count(day))
-            else:
-                temp_list.append(day)
-                temp_list.append(0)
-            d += delta
-            date_list.append(temp_list)
-            temp_list = []
+    # 文章归档分页
+    try:
+        page = request.GET.get('page', 1)
+    except PageNotAnInteger:
+        page = 1
+    except EmptyPage:
+        # 页码超出范围，返回最后一页
+        page = Paginator.num_pages
 
-        # 文章归档分页
-        try:
-            page = request.GET.get('page', 1)
-        except PageNotAnInteger:
-            page = 1
-
-        p = Paginator(all_articles, 10, request=request)
-        articles = p.page(page)
-
-        return render(request, 'article_tag.html', {
-            'all_articles': articles,
-            'date_list': date_list,
-            'end': str(end),
-            'begin': str(begin),
-        })
+    print(all_articles[0])
+    p = Paginator(all_articles, 10, request=request)
+    articles = p.page(page)
+    return render(request, 'archive.html', {
+        'all_articles': articles,
+        'date_list': date_list,
+        'end': str(end),
+        'begin': str(begin),
+    })
 
 
 def add_nav(request):
@@ -165,7 +198,6 @@ def about(request):
     temp_list = []  # 临时集合
     tags_list = []  # 存放每个标签对应的文章数
 
-    print(tags_list)
     tags = Tag.objects.all()
     for tag in tags:
         temp_list.append(tag.name)
