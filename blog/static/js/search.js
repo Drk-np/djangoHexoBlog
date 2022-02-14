@@ -1,5 +1,5 @@
 var searchFunc = function (path, search_id, content_id) {
-    'use strict';
+    // 'use strict';
     $.ajax({
         url: path,
         dataType: "xml",
@@ -12,9 +12,11 @@ var searchFunc = function (path, search_id, content_id) {
                     url: $("url", this).text()
                 };
             }).get();
+            console.log(datas);
             var $input = document.getElementById(search_id);
             var $resultContent = document.getElementById(content_id);
             $input.addEventListener('input', function () {
+                console.log("我输入了")
                 var str = '<ul class=\"search-result-list\">';
                 var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
                 $resultContent.innerHTML = "";

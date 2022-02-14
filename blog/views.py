@@ -4,6 +4,7 @@ from django.views.generic.base import View
 from .models import Article, Link, Category, Tag, Notice, Valine, About, Site, Social, Skill
 import mistune
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from .tools.tools import paging #分页工具
 
 
 def index(request):
@@ -13,27 +14,15 @@ def index(request):
     # 取出要推荐的博客文章
     top_articles = Article.objects.filter(is_recommend=1)
     notices = Notice.objects.all()
-    # 首页分页功能
-    try:
-        page = request.GET.get('page', 1)
-    except PageNotAnInteger:
-        page = 1
-    except EmptyPage as e:
-        print("wps")
-        # 页码超出范围，返回最后一页
-        page = Paginator.num_pages
-
-    print("111111",page)
+    #分页
     p = Paginator(all_articles, 9, request=request)
-    all_articles = p.page(page)
-
+    all_articles =  paging(p,request)
     # 需要传递给模板（templates）的对象
     context = {
         'all_articles': all_articles,
         'top_articles': top_articles,
         'notices': notices
     }
-    print("222222222")
     # render函数：载入模板，并返回context对象
     return render(request, 'index.html', context)
 
@@ -81,6 +70,9 @@ def article_category(request, id):
     '''文章分类详情页'''
     categories = Category.objects.all()
     articles = Category.objects.get(id=id).article_set.all()  # 获取该id对应的所有的文章
+    # 分页
+    p = Paginator(articles, 12, request=request)
+    articles = paging(p, request)
     context = {
         'categories': categories,
         'id': id,
@@ -92,9 +84,10 @@ def article_category(request, id):
 def article_tag(request, id):
     '''文章标签详情页'''
     tags = Tag.objects.all()
-    print("tags", tags)
     articles = Tag.objects.get(id=id).article_set.all()
-    print("articles", articles)
+    # 分页
+    p = Paginator(articles, 12, request=request)
+    articles = paging(p, request)
     context = {
         'tags': tags,
         'id': id,
