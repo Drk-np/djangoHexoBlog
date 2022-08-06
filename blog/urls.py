@@ -2,6 +2,7 @@ from django.urls import path, re_path
 from blog import views
 from django.contrib.staticfiles.views import serve
 from django.views.generic.base import RedirectView
+
 urlpatterns = [
     # 首页
     path('', views.index, name='index'),
@@ -19,6 +20,8 @@ urlpatterns = [
     path('archive/', views.archive, name='archive'),
     # 关于
     path('about/', views.about, name='about'),
+    # 搜索
+    path('search/', views.search, name='search'),
     # path('favicon.ico', serve, {'path': 'static/img/favicon.ico'}),
     # path('favicon.ico', RedirectView.as_view(url='static/img/favicon.ico')),
 ]

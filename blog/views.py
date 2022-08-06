@@ -1,10 +1,13 @@
+import json
+from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render
 import datetime
 from django.views.generic.base import View
 from .models import Article, Link, Category, Tag, Notice, Valine, About, Site, Social, Skill
 import mistune
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
-from .tools.tools import paging #分页工具
+from .tools.tools import paging  # 分页工具
 
 
 def index(request):
@@ -14,9 +17,9 @@ def index(request):
     # 取出要推荐的博客文章
     top_articles = Article.objects.filter(is_recommend=1)
     notices = Notice.objects.all()
-    #分页
+    # 分页
     p = Paginator(all_articles, 9, request=request)
-    all_articles =  paging(p,request)
+    all_articles = paging(p, request)
     # 需要传递给模板（templates）的对象
     context = {
         'all_articles': all_articles,
@@ -216,9 +219,26 @@ def about(request):
         'value_list': value_list,
         'top10_tags': top10_tags,
         'top10_tags_values': top10_tags_values,
-
     })
 
+def search(request):
+    title = request.GET.get('title')
+    """文章搜索"""
+    if not title:
+        return HttpResponse({'rows': []}, content_type="application/json")
+    # 取出要搜索的博客文章
+    articles = Article.objects.filter(Q(title__contains=title) | Q(content__contains=title))
+    if articles == []:
+        return  HttpResponse({'rows': []}, content_type="application/json")
+    contents = []
+    for i in articles:
+        article = {
+            'title': i.title,
+            'content': i.content,
+            'url':  i.id
+        }
+        contents.append(article)
+    return HttpResponse(json.dumps({'rows': contents}), content_type="application/json")
 
 def global_params(request):
     """全局变量"""

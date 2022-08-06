@@ -41,7 +41,7 @@ class Article(models.Model):
     title = models.CharField(max_length=50, verbose_name='文章标题')
     author = models.CharField(max_length=10, verbose_name='作者',default='DRK',blank=True,null=True)
     desc = models.CharField(max_length=50, verbose_name='文章描述')
-    cover = models.URLField(max_length=200, default='https://i.loli.net/2020/04/23/lJLjEtbs2NFwynQ.jpg', verbose_name='文章封面')
+    cover = models.URLField(max_length=200, default='https://super-zero-blog.oss-cn-beijing.aliyuncs.com/%E9%A3%8E%E7%AD%9D.jpg', verbose_name='文章封面')
     content = MDTextField(verbose_name='文章内容')
     click_count = models.PositiveIntegerField(default=0, verbose_name='阅读量')
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
@@ -66,7 +66,7 @@ class Link(models.Model):
     '''成员'''
     title = models.CharField(max_length=10,verbose_name='标题')
     url = models.URLField(verbose_name='网址',blank=True)
-    avatar = models.URLField(default='https://i.loli.net/2020/04/23/jGP8gQOYW75TSJp.png',verbose_name='头像')
+    avatar = models.URLField(default='https://super-zero-blog.oss-cn-beijing.aliyuncs.com/%E5%A4%B4%E5%83%8F.png',verbose_name='头像')
     desc = models.TextField(max_length=50,verbose_name='描述')
     button_word =models.CharField(default='访问博客',max_length=10,verbose_name='跳转文字')
     class Meta:
